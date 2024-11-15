@@ -1,15 +1,17 @@
-FROM adoptopenjdk/maven-openjdk11 AS build
+FROM maven AS build
 
 WORKDIR /app
 
 COPY pom.xml .
 RUN mvn clean verify -q --fail-never
 COPY src ./src
+COPY webapp-javax ./webapp-javax
+COPY webapp-jakarta ./webapp-jakarta
 RUN mvn clean package -Dmaven.test.skip
 
-FROM tomcat:9-jre11
+FROM tomcat
 
-COPY --from=build /app/src/hakunapi-simple-webapp-javax/target/features.war /usr/local/tomcat/webapps/
+COPY --from=build /app/webapp-jakarta/hakunapi-simple-webapp-jakarta/target/features.war /usr/local/tomcat/webapps/
 
-#EXPOSE 8080
 CMD ["catalina.sh", "run"]
+
