@@ -1,3 +1,7 @@
+LABEL org.opencontainers.image.source=https://github.com/nls-jajuko/hakunapi-image
+LABEL org.opencontainers.image.description="Hakunapi"
+LABEL org.opencontainers.image.licenses=MIT
+
 FROM maven AS build
 
 RUN git clone https://github.com/nlsfi/hakunapi.git
